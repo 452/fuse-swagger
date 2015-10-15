@@ -1,11 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- This is the OSGi Blueprint XML file defining the CXF JAX-RS beans. Because the file is in the OSGI-INF/blueprint directory inside our JAR, it will be automatically activated 
-	as soon as the artifact is installed. The root element for any OSGi Blueprint file is 'blueprint' - you also see the namespace definitions for both the Blueprint and the CXF 
-	JAX-RS namespaces. -->
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs"
+	xmlns:cxf="http://cxf.apache.org/blueprint/core"
 	xsi:schemaLocation="
       http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
-      http://cxf.apache.org/blueprint/jaxrs http://cxf.apache.org/schemas/blueprint/jaxrs.xsd">
+      http://cxf.apache.org/blueprint/jaxrs http://cxf.apache.org/schemas/blueprint/jaxrs.xsd
+      http://cxf.apache.org/blueprint/core http://cxf.apache.org/schemas/blueprint/core.xsd">
 
 	<bean id="helloBean" class="com.github.camel.blueprint.HelloBean">
 		<property name="say" value="Hi from Camel" />
@@ -20,26 +18,25 @@
 	<bean id="resourceWriter" class="com.wordnik.swagger.jaxrs.listing.ResourceListingProvider" />
 	<bean id="apiWriter" class="com.wordnik.swagger.jaxrs.listing.ApiDeclarationProvider" />
 
-<!-- 	<bean id="swaggerConfig" class="com.wordnik.swagger.jaxrs.config.BeanConfig"> -->
-<!-- 		<property name="resourcePackage" value="com.github" /> -->
-<!-- 		<property name="version" value="1.0.0" /> -->
-<!-- 		<property name="basePath" value="http://localhost:8181/cxf/api" /> -->
-<!-- 		<property name="title" value="Strikersoft Print Engine - Rest" /> -->
-<!-- 		<property name="description" value="This is a app." /> -->
-<!-- 		<property name="contact" value="sp.titan@gmail.com" /> -->
-<!-- 		<property name="license" value="Apache 2.0 License" /> -->
-<!-- 		<property name="licenseUrl" value="http://www.apache.org/licenses/LICENSE-2.0.html" /> -->
-<!-- 		<property name="apiReader" value="com.wordnik.swagger.jersey.JerseyApiReader"/> -->
-<!-- 		<property name="scan" value="true" /> -->
-<!-- 	</bean> -->
+	<bean id="rconfig" class="com.wordnik.swagger.jaxrs.config.DefaultJaxrsConfig" />
+
+	<bean id="swaggerConfig" class="com.wordnik.swagger.jaxrs.config.BeanConfig">
+		<property name="resourcePackage" value="com.github" />
+		<property name="version" value="1.0.0" />
+		<property name="basePath" value="http://localhost:8181/cxf/api" />
+		<property name="title" value="Strikersoft Print Engine - Rest" />
+		<property name="description" value="This is a app." />
+		<property name="contact" value="sp.titan@gmail.com" />
+		<property name="license" value="Apache 2.0 License" />
+		<property name="licenseUrl" value="http://www.apache.org/licenses/LICENSE-2.0.html" />
+		<property name="scan" value="true" />
+	</bean>
 
 	<jaxrs:server id="swaggerAPI" address="/swagger">
 		<jaxrs:serviceBeans>
 			<ref component-id="swaggerResourceJSON" />
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
-			<!-- <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" /> -->
-			<!-- <bean class="com.ge.aviation.svc.fss.exception.WebExceptionHandler" /> -->
 			<ref component-id="resourceWriter" />
 			<ref component-id="apiWriter" />
 			<ref component-id="corsFilter" />
@@ -57,6 +54,7 @@
 				<property name="jenkinsJobBuildInfo" value="${jenkinsJobBuildInfo}" />
 				<property name="marketVersion" value="${marketVersion}" />
 			</bean>
+			<bean class="com.github.Sample" />
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
 			<bean class="org.apache.cxf.jaxrs.model.wadl.WadlGenerator">
@@ -65,14 +63,22 @@
 			<bean class="org.apache.cxf.jaxrs.provider.JAXBElementProvider">
 				<property name="singleJaxbContext" value="true" />
 			</bean>
+			<bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider" />
 			<ref component-id="resourceWriter" />
 			<ref component-id="apiWriter" />
+			<ref component-id="swaggerConfig" />
 			<ref component-id="corsFilter" />
 		</jaxrs:providers>
 		<jaxrs:features>
 			<bean class="org.apache.cxf.jaxrs.swagger.SwaggerFeature" />
 		</jaxrs:features>
 	</jaxrs:server>
+
+	<cxf:bus>
+		<cxf:features>
+			<cxf:logging />
+		</cxf:features>
+	</cxf:bus>
 
 	<!-- <camelContext xmlns="http://camel.apache.org/schema/blueprint"> -->
 	<!-- <route id="ti"> -->
