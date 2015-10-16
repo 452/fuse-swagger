@@ -13,14 +13,8 @@ import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 
-/**
- * @author ihor.lavryniuk@strikersoft.com
- * @author Ihor Lavryniuk
- * @param <T>
- * 
- */
-@Path("/")
-@Api(value = "/", description = "Operations about Version")
+@Path("/version")
+@Api(value = "/version", description = "Operations about Version")
 public class VersionServiceCxfrsImpl {
 
 	private String shortBuildVersion;
@@ -38,7 +32,7 @@ public class VersionServiceCxfrsImpl {
     @ApiOperation(value = "Find ZZZZ by ID", notes = "More notes about this method", response = Container.class)
     @ApiResponses(value = {
       @ApiResponse(code = 500, message = "Invalid ID supplied"),
-      @ApiResponse(code = 204, message = "Customer not found") 
+      @ApiResponse(code = 204, message = "Version not found") 
     })
 	public List<Container> getVersion() {
 		List<Container> versionInfo = new LinkedList<Container>();

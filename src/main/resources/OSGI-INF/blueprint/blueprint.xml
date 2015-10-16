@@ -5,28 +5,21 @@
       http://cxf.apache.org/blueprint/jaxrs http://cxf.apache.org/schemas/blueprint/jaxrs.xsd
       http://cxf.apache.org/blueprint/core http://cxf.apache.org/schemas/blueprint/core.xsd">
 
-	<bean id="helloBean" class="com.github.camel.blueprint.HelloBean">
-		<property name="say" value="Hi from Camel" />
-	</bean>
-
 	<bean id="corsFilter" class="org.apache.cxf.rs.security.cors.CrossOriginResourceSharingFilter">
 		<property name="allowCredentials" value="true" />
-		<!-- <property name="allowOrigins" value="*" /> -->
 	</bean>
 
 	<bean id="swaggerResourceJSON" class="com.wordnik.swagger.jaxrs.listing.ApiListingResourceJSON" />
 	<bean id="resourceWriter" class="com.wordnik.swagger.jaxrs.listing.ResourceListingProvider" />
 	<bean id="apiWriter" class="com.wordnik.swagger.jaxrs.listing.ApiDeclarationProvider" />
 
-	<bean id="rconfig" class="com.wordnik.swagger.jaxrs.config.DefaultJaxrsConfig" />
-
-	<bean id="swaggerConfig" class="com.wordnik.swagger.jaxrs.config.BeanConfig">
+	<bean id="swaggerConfig" class="org.apache.cxf.jaxrs.swagger.SwaggerFeature">
 		<property name="resourcePackage" value="com.github" />
-		<property name="version" value="1.0.0" />
-		<property name="basePath" value="http://localhost:8181/cxf/api" />
-		<property name="title" value="Strikersoft Print Engine - Rest" />
-		<property name="description" value="This is a app." />
-		<property name="contact" value="sp.titan@gmail.com" />
+		<property name="version" value="0.0.1" />
+		<property name="basePath" value="http://localhost:8181/cxf/rest" />
+		<property name="title" value="Example - Rest" />
+		<property name="description" value="This is Example app." />
+		<property name="contact" value="example@gmail.com" />
 		<property name="license" value="Apache 2.0 License" />
 		<property name="licenseUrl" value="http://www.apache.org/licenses/LICENSE-2.0.html" />
 		<property name="scan" value="true" />
@@ -41,6 +34,9 @@
 			<ref component-id="apiWriter" />
 			<ref component-id="corsFilter" />
 		</jaxrs:providers>
+		<jaxrs:features>
+			<ref component-id="swaggerConfig" />
+		</jaxrs:features>
 	</jaxrs:server>
 
 	<jaxrs:server id="versionService" address="/rest">
@@ -63,14 +59,13 @@
 			<bean class="org.apache.cxf.jaxrs.provider.JAXBElementProvider">
 				<property name="singleJaxbContext" value="true" />
 			</bean>
-			<bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider" />
-			<ref component-id="resourceWriter" />
-			<ref component-id="apiWriter" />
-			<ref component-id="swaggerConfig" />
-			<ref component-id="corsFilter" />
+<!-- 			<bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider" /> -->
+<!-- 			<ref component-id="resourceWriter" /> -->
+<!-- 			<ref component-id="apiWriter" /> -->
+<!-- 			<ref component-id="corsFilter" /> -->
 		</jaxrs:providers>
 		<jaxrs:features>
-			<bean class="org.apache.cxf.jaxrs.swagger.SwaggerFeature" />
+			<ref component-id="swaggerConfig" />
 		</jaxrs:features>
 	</jaxrs:server>
 
@@ -79,17 +74,5 @@
 			<cxf:logging />
 		</cxf:features>
 	</cxf:bus>
-
-	<!-- <camelContext xmlns="http://camel.apache.org/schema/blueprint"> -->
-	<!-- <route id="ti"> -->
-	<!-- <from uri="timer:foo?period=5000" /> -->
-	<!-- <setBody> -->
-	<!-- <method ref="helloBean" method="hello" /> -->
-	<!-- </setBody> -->
-	<!-- <log message="The message 22777 contains ${body}" /> -->
-	<!-- <to uri="mock:result" /> -->
-	<!-- </route> -->
-
-	<!-- </camelContext> -->
 
 </blueprint>

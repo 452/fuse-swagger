@@ -16,7 +16,9 @@ To run the project you can execute the following Maven goal
 To deploy the project in OSGi. For example using Apache ServiceMix
 or Apache Karaf. You can run the following command from its shell:
 
-    osgi:install -s mvn:com.github/fuse-swagger/1.0.0
+    features:addurl mvn:com.github/fuse-swagger/1.0.0/xml/features
+	features:install fuse-swagger
+
     osgi:update 1
     start 1
     
@@ -27,3 +29,7 @@ or Apache Karaf. You can run the following command from its shell:
     http://localhost:8181/cxf/rest/api-docs
     
     http://localhost:8181/cxf/rest/version
+    
+    http://petstore.swagger.io/
+    
+    http://localhost:8181/cxf/swagger?_wadl

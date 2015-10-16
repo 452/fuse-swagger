@@ -5,13 +5,19 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 @XmlRootElement(name = "version")
 @XmlAccessorType(XmlAccessType.FIELD)
+@ApiModel(value = "A pet is a person's best friend" )
 public class Container {
 
 	@XmlElement
+	@ApiModelProperty(value = "name", required=true)
 	private String name;
 	@XmlElement
+	@ApiModelProperty(value = "value", required=true)
 	private String value;
 
 	public Container() {

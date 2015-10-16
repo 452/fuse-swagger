@@ -7,7 +7,7 @@
 		<!-- Camel 2.15 onwards -->
 		<servlet-name>ApiDeclarationServlet</servlet-name>
 		<servlet-class>org.apache.camel.component.swagger.DefaultCamelSwaggerServlet</servlet-class>
-
+111
 		<!-- Camel 2.15 onwards -->
 		<init-param>
 			<!-- we specify the base.path using relative notation, that means the actual path will be calculated at runtime as http://server:port/contextpath/rest -->
