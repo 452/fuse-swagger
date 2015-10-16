@@ -15,23 +15,23 @@ import com.wordnik.swagger.annotations.ApiResponses;
 
 @Path("/sample")
 @Api(value = "/sample", description = "Sample Description")
-public class Sample {
+public class SampleServiceCxfrsImpl {
 
 	@Path("/date")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "getDate", notes = "method return Date", response = String.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Ok"), @ApiResponse(code = 204, message = "Date not found") })
-	public String date() {
+	public String getDate() {
 		return "21.10.2015";
 	}
 
-	@Path("/sayHello")
+	@Path("/getHello")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@ApiOperation(value = "Say Hello World", notes = "Anything Else?")
+	@ApiOperation(value = "Say Hello World", notes = "Anything Else?", response = Response.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Hello world"), @ApiResponse(code = 500, message = "Something wrong in Server") })
-	public Response sayHello() {
+	public Response getHello() {
 		String hello = "Hello world";
 		return Response.status(200).entity(hello).build();
 	}
@@ -41,7 +41,7 @@ public class Sample {
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "getDate", notes = "method return Date", response = String.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Ok"), @ApiResponse(code = 204, message = "Date not found") })
-	public String hi(@ApiParam(name = "userName", value = "UserName to the application", required = true) @PathParam("userName") String userName) {
+	public String getHi(@ApiParam(name = "userName", value = "UserName to the application", required = true) @PathParam("userName") String userName) {
 		return "hi" + userName;
 	}
 

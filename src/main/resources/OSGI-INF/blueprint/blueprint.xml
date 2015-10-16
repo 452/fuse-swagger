@@ -16,7 +16,7 @@
 	<bean id="swaggerConfig" class="org.apache.cxf.jaxrs.swagger.SwaggerFeature">
 		<property name="resourcePackage" value="com.github" />
 		<property name="version" value="0.0.1" />
-		<property name="basePath" value="http://localhost:8181/cxf/rest" />
+		<property name="basePath" value="http://localhost:8181/cxf/rest/v1" />
 		<property name="title" value="Example - Rest" />
 		<property name="description" value="This is Example app." />
 		<property name="contact" value="example@gmail.com" />
@@ -25,7 +25,7 @@
 		<property name="scan" value="true" />
 	</bean>
 
-	<jaxrs:server id="swaggerAPI" address="/swagger">
+	<jaxrs:server id="fuseSwaggerAPI" address="/fuse-swagger/v1">
 		<jaxrs:serviceBeans>
 			<ref component-id="swaggerResourceJSON" />
 		</jaxrs:serviceBeans>
@@ -39,7 +39,7 @@
 		</jaxrs:features>
 	</jaxrs:server>
 
-	<jaxrs:server id="versionService" address="/rest">
+	<jaxrs:server id="fuseVersionService" address="/rest/v1">
 		<jaxrs:serviceBeans>
 			<bean class="com.github.VersionServiceCxfrsImpl">
 				<property name="shortBuildVersion" value="${git.buildnumber}" />
@@ -50,7 +50,7 @@
 				<property name="jenkinsJobBuildInfo" value="${jenkinsJobBuildInfo}" />
 				<property name="marketVersion" value="${marketVersion}" />
 			</bean>
-			<bean class="com.github.Sample" />
+			<bean class="com.github.SampleServiceCxfrsImpl" />
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
 			<bean class="org.apache.cxf.jaxrs.model.wadl.WadlGenerator">
@@ -59,10 +59,10 @@
 			<bean class="org.apache.cxf.jaxrs.provider.JAXBElementProvider">
 				<property name="singleJaxbContext" value="true" />
 			</bean>
-<!-- 			<bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider" /> -->
-<!-- 			<ref component-id="resourceWriter" /> -->
-<!-- 			<ref component-id="apiWriter" /> -->
-<!-- 			<ref component-id="corsFilter" /> -->
+			<bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider" />
+			<ref component-id="resourceWriter" />
+			<ref component-id="apiWriter" />
+			<ref component-id="corsFilter" />
 		</jaxrs:providers>
 		<jaxrs:features>
 			<ref component-id="swaggerConfig" />

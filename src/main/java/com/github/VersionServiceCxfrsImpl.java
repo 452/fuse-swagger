@@ -27,7 +27,7 @@ public class VersionServiceCxfrsImpl {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/version")
+	@Path("/")
 	
     @ApiOperation(value = "Find ZZZZ by ID", notes = "More notes about this method", response = Container.class)
     @ApiResponses(value = {
